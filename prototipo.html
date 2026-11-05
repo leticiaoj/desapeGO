@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DesapeGO! | Compra e venda com praticidade</title>
+<style>
+:root{--orange:#fb6107;--green:#46c931;--ink:#202421;--muted:#747a75;--paper:#f8f8f5;--soft:#eff1eb;--line:#e7e9e3;--white:#fff}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:Arial,Helvetica,sans-serif}
+header{background:#fff;border-top:4px solid var(--orange);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:10}
+.nav{max-width:1160px;margin:auto;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;gap:18px}
+.brand{font-size:25px;font-weight:800;color:var(--orange);text-decoration:none;white-space:nowrap}.brand span{color:var(--green)}
+nav{display:flex;gap:24px;align-items:center;flex-wrap:wrap}nav a{color:#4c514d;text-decoration:none;font-size:14px;font-weight:600}nav a.account-link{color:var(--orange);border:1px solid #ffd2ba;border-radius:10px;padding:9px 12px}
+button,.button{border:0;border-radius:12px;padding:12px 18px;font-weight:700;cursor:pointer;background:var(--orange);color:#fff;font-size:14px;text-decoration:none;display:inline-block}
+button.secondary,.button.secondary{background:#fff;color:var(--ink);border:1px solid #dfe2dc}
+button.green{background:var(--green);color:#16350f}
+main{max-width:1160px;margin:auto;padding:34px 24px 60px}
+section{margin:0 0 34px;scroll-margin-top:90px}
+.hero{padding:30px 0 12px}
+.eyebrow{color:#329d24;font-size:13px;font-weight:800;letter-spacing:.3px;margin-bottom:12px}
+h1{font-size:clamp(36px,5vw,58px);line-height:1.02;letter-spacing:-2px;margin:0 0 16px;max-width:720px}
+h1 span{color:var(--green)}
+h2{font-size:27px;letter-spacing:-.7px;margin:0 0 10px}
+h3{font-size:18px;margin:0 0 9px}
+p{color:var(--muted);line-height:1.6;margin:0 0 14px}
+.hero-copy{font-size:17px;max-width:700px}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+.panel{background:#fff;border:1px solid var(--line);border-radius:20px;padding:24px;box-shadow:0 8px 25px rgba(20,30,20,.035)}
+.search-panel{background:linear-gradient(110deg,#fb6107,#e88a05 58%,#46c931);color:#fff}
+.search-panel h2,.search-panel p{color:#fff}
+.search-row{display:flex;gap:10px;margin:16px 0 8px}
+input,textarea,select{font:inherit;border:1px solid #dfe2dc;border-radius:11px;padding:13px 14px;background:#fff;color:var(--ink);width:100%;outline:none}
+input:focus,textarea:focus,select:focus{border-color:var(--green);box-shadow:0 0 0 3px #46c93122}
+.search-row input{flex:1}
+.search-row select{max-width:145px}
+.search-row button{background:var(--green);color:#15350f;min-width:110px}
+.section-intro{margin-bottom:17px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+textarea{min-height:120px;resize:vertical}
+.result{min-height:120px;background:var(--soft);border-radius:12px;padding:15px;white-space:pre-wrap;color:#505650;line-height:1.55}
+.hint{font-size:12px;color:var(--muted)}
+.inline-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+.products{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.product{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px}
+.product-art{height:125px;background:var(--soft);border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:54px;margin-bottom:12px}
+.product .tag{font-size:11px;color:#b84a0b;background:#fff0e6;border-radius:20px;padding:5px 8px;display:inline-block;margin-bottom:8px}
+.price{font-size:20px;font-weight:800;margin:7px 0}
+.delivery{font-size:12px;color:#26951b;margin:8px 0}
+.product button{width:100%;margin-top:6px}
+.features{display:grid;grid-template-columns:1fr;gap:12px}
+.feature{display:flex;gap:14px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:14px;padding:17px}
+.feature-icon{width:38px;height:38px;border-radius:11px;background:#e7f8e2;color:#229b18;display:grid;place-items:center;font-weight:900;flex-shrink:0}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.step{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px}
+.step b{display:block;color:var(--orange);font-size:13px;margin-bottom:8px}
+.delivery-banner{background:linear-gradient(105deg,var(--orange),#ed8a00 55%,var(--green));border-radius:18px;padding:25px;color:white}
+.delivery-banner h2,.delivery-banner p{color:white}
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.info-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px}
+footer{background:#fff;border-top:1px solid var(--line);padding:25px;text-align:center;color:var(--muted);font-size:13px}
+.modal{display:none;position:fixed;inset:0;background:#1119;z-index:30;align-items:center;justify-content:center;padding:20px}
+.modal.open{display:flex}.modal-box{background:#fff;border-radius:18px;padding:24px;max-width:470px;width:100%}.modal-box p{margin:10px 0}
+.close{float:right;background:#eee;color:#333;padding:7px 11px}
+.notice{padding:12px;background:#eff9eb;border-radius:10px;color:#287e1e;font-size:13px;margin-top:12px;display:none}
+@media(max-width:760px){.nav{align-items:flex-start;flex-direction:column}nav{gap:14px}.two,.info-grid{grid-template-columns:1fr}.products{grid-template-columns:repeat(2,1fr)}.steps{grid-template-columns:1fr}.search-row{flex-direction:column}.search-row select{max-width:none}.hero{padding-top:15px}}
+@media(max-width:480px){main{padding:22px 15px 40px}.products{grid-template-columns:1fr}.panel{padding:18px}h2{font-size:23px}}
+
+.experience-list{display:grid;grid-template-columns:1fr;gap:14px}
+.experience-card{background:#fff;border:1px solid var(--line);border-radius:15px;padding:19px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.form-field{display:flex;flex-direction:column;gap:7px;font-size:13px;font-weight:700;color:#4c514d}
+.form-field.full{grid-column:1/-1}
+.status-box{background:var(--soft);border-radius:11px;padding:13px 15px;font-weight:700;margin:12px 0}
+.tracking-list{display:grid;gap:9px;margin:14px 0}
+.tracking-step{padding:11px 13px;border-left:3px solid #dce1d8;background:#f8f9f6;border-radius:0 9px 9px 0;color:#777;font-size:13px}
+.tracking-step.done{border-left-color:var(--green);color:#277d20;background:#f0faed}
+.extra-summary{background:#f0faed;border-radius:11px;padding:13px;margin-top:12px;color:#286d20;font-size:14px}
+.review-result{margin-top:12px;padding:12px;background:var(--soft);border-radius:10px;white-space:pre-wrap}
+@media(max-width:600px){.form-grid{grid-template-columns:1fr}.form-field.full{grid-column:auto}}
+
+</style>
+</head>
+<body>
+<header>
+<div class="nav">
+<a class="brand" href="#inicio">♜ Desape<span>GO!</span></a>
+<nav>
+<a href="#inicio">Início</a><a href="#buscar">Buscar</a><a href="#anunciar">Anunciar</a><a href="#como-funciona">Como funciona</a><a class="account-link" href="#conta">Criar conta / Entrar</a>
+</nav>
+<a class="button" href="#anunciar">+ Anunciar produto</a>
+</div>
+</header>
+<main>
+<section class="hero" id="inicio">
+<div class="eyebrow">COMPRA E VENDA DE PRODUTOS USADOS</div>
+<h1>O que você procura<br>está <span>perto.</span></h1>
+<p class="hero-copy">Compre e venda produtos usados de forma simples e segura. Use a inteligência artificial para criar anúncios, encontrar o que procura e receber tudo com a entrega DesapeGO!</p>
+<div class="actions"><a class="button" href="#buscar">Encontrar produtos</a><a class="button secondary" href="#anunciar">Criar anúncio com IA</a></div>
+</section>
+<section id="buscar">
+<div class="panel search-panel">
+<div class="eyebrow" style="color:#fff">BUSCA INTELIGENTE</div>
+<h2>Conte o que você precisa.</h2>
+<p>Descreva o produto, o preço e a região. A busca inteligente ajuda a encontrar anúncios compatíveis.</p>
+<div class="search-row">
+<input id="query" placeholder="Ex.: bicicleta aro 29 até R$ 500">
+<select id="radius"><option value="5">Até 5 km</option><option value="10" selected>Até 10 km</option><option value="15">Até 15 km</option></select>
+<button onclick="searchProducts()">Buscar</button>
+</div>
+<div class="hint" style="color:#fff">A distância e os resultados são demonstrativos neste protótipo.</div>
+</div>
+</section>
+<section id="anunciar">
+<div class="section-intro"><h2>Crie seu anúncio com IA</h2><p>Grave um vídeo mostrando o produto. A IA sugere título, descrição, categoria e preço para você revisar antes de publicar.</p></div>
+<div class="panel">
+<div class="two">
+<div>
+<h3>1. Envie um vídeo do produto</h3>
+<p><strong>O vídeo é obrigatório para publicar o anúncio.</strong> Mostre o produto de diferentes ângulos, destacando seu estado e características. A inteligência artificial utilizará o vídeo para criar o anúncio.</p>
+<div class="panel" style="background:#f7fbf4;border:1px dashed #46c931;padding:17px;margin:12px 0">
+<label class="form-field" for="video" style="cursor:pointer;align-items:flex-start"><span class="button green">Selecionar vídeo do produto</span><span class="hint">Formatos de vídeo compatíveis com seu dispositivo.</span></label>
+<input id="video" type="file" accept="video/*" style="display:none" onchange="videoSelected()">
+<div class="hint" id="videoName" style="margin-top:10px">Nenhum vídeo selecionado. Envie o vídeo antes de publicar.</div>
+</div>
+<h3>2. Descrição opcional</h3>
+<p>Se quiser, acrescente detalhes por escrito. A IA também permite simular a criação do anúncio usando somente esse texto, mas o vídeo continuará sendo obrigatório para a publicação.</p>
+<textarea id="productDescription" placeholder="Opcional: Ex.: bicicleta aro 29, preta, usada poucas vezes, em ótimo estado, com freio a disco..."></textarea>
+<div class="inline-actions"><button onclick="generateAd()">Gerar simulação do anúncio</button></div>
+</div>
+<div>
+<h3>3. Resultado sugerido</h3>
+<div class="result" id="adResult">A sugestão de anúncio aparecerá aqui após você descrever o produto.</div>
+<div class="inline-actions"><button class="green" onclick="publishAd()">Revisar e publicar</button></div>
+<div class="hint">A publicação só será liberada depois que um vídeo do produto for selecionado.</div>
+<div class="notice" id="adNotice">Anúncio demonstrativo preparado. Para publicar de verdade, é necessário conectar a plataforma a um serviço de cadastro.</div>
+</div>
+</div>
+</div>
+</section>
+<section>
+<div class="section-intro"><h2>Encontre o que procura</h2><p>Explore produtos anunciados e use a busca para filtrar os resultados.</p></div>
+<div class="inline-actions" style="margin-bottom:14px"><input id="filter" placeholder="Filtrar produtos por nome ou categoria..." oninput="filterProducts()" style="max-width:420px"></div>
+<div class="products" id="productList">
+<article class="product" data-search="bicicleta aro 29 esporte"><div class="product-art">🚲</div><span class="tag">Venda</span><h3>Bicicleta Aro 29</h3><div class="price">R$ 480</div><div class="delivery">✓ Entrega obrigatória DesapeGO!</div><button onclick="buy('Bicicleta Aro 29','R$ 480')">Tenho interesse</button></article>
+<article class="product" data-search="mesa escritório móveis"><div class="product-art">🪑</div><span class="tag">Venda</span><h3>Mesa de escritório</h3><div class="price">R$ 180</div><div class="delivery">✓ Entrega obrigatória DesapeGO!</div><button onclick="buy('Mesa de escritório','R$ 180')">Tenho interesse</button></article>
+<article class="product" data-search="furadeira ferramenta"><div class="product-art">🔧</div><span class="tag">Venda</span><h3>Furadeira profissional</h3><div class="price">R$ 120</div><div class="delivery">✓ Entrega obrigatória DesapeGO!</div><button onclick="buy('Furadeira profissional','R$ 120')">Tenho interesse</button></article>
+<article class="product" data-search="caixa som bluetooth eletrônicos"><div class="product-art">🔊</div><span class="tag">Venda</span><h3>Caixa de som Bluetooth</h3><div class="price">R$ 220</div><div class="delivery">✓ Entrega obrigatória DesapeGO!</div><button onclick="buy('Caixa de som Bluetooth','R$ 220')">Tenho interesse</button></article>
+<article class="product" data-search="fone eletrônico áudio"><div class="product-art">🎧</div><span class="tag">Venda</span><h3>Fone de ouvido</h3><div class="price">R$ 95</div><div class="delivery">✓ Entrega obrigatória DesapeGO!</div><button onclick="buy('Fone de ouvido','R$ 95')">Tenho interesse</button></article>
+<article class="product" data-search="mochila bolsa acessórios"><div class="product-art">🎒</div><span class="tag">Venda</span><h3>Mochila em ótimo estado</h3><div class="price">R$ 75</div><div class="delivery">✓ Entrega obrigatória DesapeGO!</div><button onclick="buy('Mochila em ótimo estado','R$ 75')">Tenho interesse</button></article>
+</div>
+<p id="noResults" style="display:none;margin-top:15px">Nenhum produto encontrado com esse filtro.</p>
+</section>
+<section>
+<div class="section-intro"><h2>Por que DesapeGO?</h2><p>Uma experiência pensada para simplificar a venda e tornar a compra mais segura.</p></div>
+<div class="features">
+<div class="feature"><div class="feature-icon">IA</div><div><h3>Anúncio automático por vídeo</h3><p>O vendedor grava o produto e a inteligência artificial sugere título, descrição e preço para revisão antes da publicação.</p></div></div>
+<div class="feature"><div class="feature-icon">⌕</div><div><h3>Busca inteligente</h3><p>O comprador pode pesquisar por palavras-chave ou descrever o que procura. A plataforma considera características, preço e localização.</p></div></div>
+<div class="feature"><div class="feature-icon">✓</div><div><h3>Pagamento protegido</h3><p>O pagamento é realizado pela plataforma. O valor fica protegido e é liberado ao vendedor no oitavo dia após a entrega, desde que não exista reclamação ou disputa pendente.</p></div></div>
+<div class="feature"><div class="feature-icon">★</div><div><h3>Avaliações e atendimento</h3><p>Acompanhe pedidos, avalie a experiência e conte com canais de atendimento e mediação de conflitos.</p></div></div>
+</div>
+</section>
+<section class="delivery-banner">
+<div class="eyebrow" style="color:#fff">ENTREGA DESAPEGO!</div>
+<h2>Receba sem sair de casa.</h2>
+<p>A coleta e a entrega fazem parte da compra. O transporte é agendado conforme a disponibilidade de quem vende e de quem compra, com acompanhamento do pedido.</p>
+<button class="green" onclick="document.getElementById('deliveryDetails').scrollIntoView({behavior:'smooth'})">Como funciona a entrega</button>
+</section>
+<section id="como-funciona">
+<div class="section-intro"><h2>Como funciona</h2><p>Da criação do anúncio até a confirmação do recebimento.</p></div>
+<div class="steps">
+<div class="step"><b>01 · VENDEDOR</b><h3>Grave e anuncie</h3><p>Mostre o produto em vídeo, revise as informações sugeridas pela IA e informe sua disponibilidade para coleta.</p></div>
+<div class="step"><b>02 · COMPRADOR</b><h3>Encontre e pague</h3><p>Pesquise o que deseja, confira o anúncio e realize o pagamento dentro da plataforma.</p></div>
+<div class="step"><b>03 · DESAPEGO!</b><h3>Coleta e entrega</h3><p>A plataforma organiza o transporte. Acompanhe o pedido e confirme o recebimento.</p></div>
+</div>
+</section>
+<section id="deliveryDetails">
+<div class="section-intro"><h2>Entrega integrada e obrigatória</h2><p>A DesapeGO! organiza a retirada com o vendedor e a entrega ao comprador, sem necessidade de encontro entre as partes.</p></div>
+<div class="info-grid">
+<div class="info-card"><h3>Agendamento</h3><p>A coleta e a entrega são agendadas de acordo com a disponibilidade informada pelos participantes.</p></div>
+<div class="info-card"><h3>Frete transparente</h3><p>O valor é calculado conforme distância, peso e dimensões do produto. O frete normal tem limite previsto de R$ 65.</p></div>
+<div class="info-card"><h3>Acompanhamento</h3><p>O comprador e o vendedor poderão acompanhar o andamento do pedido pela plataforma.</p></div>
+<div class="info-card"><h3>Segurança operacional</h3><p>A coleta e a entrega ocorrem na portaria ou entrada dos imóveis, respeitando os limites de peso e dimensões.</p></div>
+</div>
+</section>
+<section>
+<div class="section-intro"><h2>Serviços adicionais</h2><p>Opções complementares previstas no modelo de negócio.</p></div>
+<div class="info-grid">
+<div class="info-card"><h3>Anúncio impulsionado</h3><p>R$ 4,99 por 3 dias ou R$ 9,99 por 15 dias.</p></div>
+<div class="info-card"><h3>Clube DesapeGO!</h3><p>Assinatura mensal com benefícios exclusivos para os usuários.</p></div>
+<div class="info-card"><h3>Entregas prioritárias</h3><p>Adicional previsto de R$ 7,90 ou R$ 9,90, conforme o período.</p></div>
+<div class="info-card"><h3>Publicidade</h3><p>Espaço para divulgação de empresas parceiras na plataforma.</p></div>
+</div>
+<p class="hint" style="margin-top:12px">A DesapeGO! prevê comissão de 8% sobre as vendas, além da cobrança do frete obrigatório.</p>
+</section>
+
+<section id="agendar-acompanhar">
+<div class="section-intro">
+<h2>Agende e acompanhe sua entrega</h2>
+<p>Escolha a data e o período para a coleta e acompanhe cada etapa do transporte. A coleta e a entrega são organizadas pela DesapeGO!</p>
+</div>
+<div class="experience-list">
+<div class="experience-card">
+<h3>1. Agendamento da coleta e entrega</h3>
+<p>Informe os dados para solicitar o transporte. A retirada e o recebimento acontecem na portaria ou entrada do imóvel.</p>
+<div class="form-grid">
+<label class="form-field">Data desejada
+<input id="deliveryDateNew" type="date">
+</label>
+<label class="form-field">Período preferido
+<select id="deliveryPeriodNew">
+<option value="manha">08h às 12h</option>
+<option value="tarde">12h às 16h</option>
+<option value="noite">16h às 20h</option>
+</select>
+</label>
+<label class="form-field full">Endereço de coleta
+<input id="pickupAddressNew" placeholder="Rua, número e bairro">
+</label>
+<label class="form-field full">Endereço de entrega
+<input id="dropoffAddressNew" placeholder="Rua, número e bairro">
+</label>
+</div>
+<h3 style="margin-top:20px">2. Escolha a modalidade de entrega</h3>
+<p>Se precisar receber em um horário especial, você pode solicitar prioridade mediante taxa adicional, sujeita à disponibilidade operacional.</p>
+<div class="form-grid">
+<label class="form-field full">Modalidade
+<select id="priorityTypeNew" onchange="updatePriorityNew()">
+<option value="normal">Entrega normal — sem taxa adicional</option>
+<option value="weekend">Final de semana — adicional de R$ 7,90</option>
+<option value="holiday">Feriado — adicional de R$ 7,90</option>
+<option value="afterhours">Fora do horário comercial — adicional de R$ 7,90</option>
+<option value="sameday">Entrega no mesmo dia da compra — adicional de R$ 9,90</option>
+</select>
+</label>
+</div>
+<div class="extra-summary" id="prioritySummaryNew">Entrega normal selecionada. Sem taxa de prioridade.</div>
+<p class="hint" style="margin-top:10px">Valores adicionais demonstrativos, alinhados às faixas de R$ 7,90 e R$ 9,90 previstas no plano de negócios. A confirmação depende da disponibilidade da operação. A taxa normal de frete é calculada separadamente.</p>
+<div class="inline-actions">
+<button onclick="scheduleDeliveryNew()">Solicitar agendamento</button>
+<button class="secondary" onclick="resetDeliveryNew()">Limpar dados</button>
+</div>
+<div class="notice" id="deliveryRequestNoticeNew"></div>
+</div>
+<div class="experience-card">
+<h3>3. Acompanhamento do pedido</h3>
+<p>Consulte o andamento da sua entrega. Nesta versão, os status podem ser avançados para demonstrar o funcionamento.</p>
+<div class="status-box" id="deliveryStatusNew">Aguardando solicitação de agendamento</div>
+<div class="tracking-list" id="deliveryTrackingNew">
+<div class="tracking-step">Pedido realizado</div>
+<div class="tracking-step">Pagamento confirmado</div>
+<div class="tracking-step">Coleta agendada</div>
+<div class="tracking-step">Produto coletado</div>
+<div class="tracking-step">Em transporte</div>
+<div class="tracking-step">Entrega concluída</div>
+</div>
+<div class="inline-actions">
+<button class="green" onclick="advanceDeliveryNew()">Avançar acompanhamento</button>
+<button class="secondary" onclick="resetTrackingNew()">Reiniciar demonstração</button>
+</div>
+</div>
+</div>
+</section>
+
+<section id="sua-experiencia">
+<div class="section-intro">
+<h2>Sua experiência DesapeGO!</h2>
+<p>Queremos que comprar e vender seja simples, seguro e transparente. Avalie sua experiência, fale com o suporte ou registre um problema.</p>
+</div>
+<div class="experience-list">
+<div class="experience-card">
+<h3>Avalie sua experiência</h3>
+<p>Sua opinião ajuda a melhorar a plataforma e fortalece a confiança entre os usuários.</p>
+<div class="form-grid">
+<label class="form-field">Sua avaliação
+<select id="experienceRatingNew">
+<option value="5">★★★★★ — Excelente</option>
+<option value="4">★★★★☆ — Muito boa</option>
+<option value="3">★★★☆☆ — Boa</option>
+<option value="2">★★☆☆☆ — Regular</option>
+<option value="1">★☆☆☆☆ — Ruim</option>
+</select>
+</label>
+<label class="form-field">Você participou como
+<select id="experienceRoleNew"><option>Comprador(a)</option><option>Vendedor(a)</option></select>
+</label>
+<label class="form-field full">Comentário
+<textarea id="experienceCommentNew" rows="3" placeholder="Conte como foi sua experiência com o anúncio, pagamento ou entrega..."></textarea>
+</label>
+</div>
+<button style="margin-top:12px" onclick="submitExperienceNew()">Enviar avaliação</button>
+<div class="review-result" id="experienceResultNew" style="display:none"></div>
+</div>
+<div class="experience-card">
+<h3>Atendimento e suporte</h3>
+<p>Escolha o assunto e descreva como podemos ajudar.</p>
+<div class="form-grid">
+<label class="form-field full">Assunto
+<select id="supportSubjectNew">
+<option>Atraso na coleta ou entrega</option>
+<option>Problema com o produto</option>
+<option>Pagamento ou reembolso</option>
+<option>Dúvida sobre a plataforma</option>
+<option>Outro assunto</option>
+</select>
+</label>
+<label class="form-field full">Mensagem
+<textarea id="supportTextNew" rows="3" placeholder="Descreva sua solicitação..."></textarea>
+</label>
+</div>
+<button style="margin-top:12px" onclick="submitSupportNew()">Enviar solicitação</button>
+<div class="notice" id="supportNoticeNew"></div>
+</div>
+<div class="experience-card">
+<h3>Problemas, disputas e devoluções</h3>
+<p>Se o produto não chegar, apresentar avarias ou estiver diferente do anúncio, registre uma ocorrência para simular o processo de mediação.</p>
+<div class="form-grid">
+<label class="form-field full">Motivo da ocorrência
+<select id="disputeReasonNew">
+<option>Produto não recebido</option>
+<option>Produto danificado</option>
+<option>Produto diferente do anúncio</option>
+<option>Problema com a entrega</option>
+<option>Outro problema</option>
+</select>
+</label>
+<label class="form-field full">Detalhes
+<textarea id="disputeTextNew" rows="3" placeholder="Explique o que aconteceu..."></textarea>
+</label>
+</div>
+<button class="secondary" style="margin-top:12px" onclick="submitDisputeNew()">Registrar ocorrência</button>
+<div class="notice" id="disputeNoticeNew"></div>
+</div>
+</div>
+</section>
+
+<section id="conta">
+<div class="panel">
+<h2>Minha conta</h2><p>Entre ou crie seu cadastro para acompanhar compras, vendas e entregas.</p>
+<div class="two"><input id="email" type="email" placeholder="Seu e-mail"><input id="password" type="password" placeholder="Sua senha"></div>
+<div class="inline-actions"><button onclick="account()">Entrar</button><button class="secondary" onclick="account()">Criar cadastro</button></div>
+<div class="notice" id="accountNotice">Área demonstrativa. O cadastro e a autenticação precisam de integração com o sistema.</div>
+</div>
+</section>
+</main>
+<footer>DesapeGO! · Compra e venda de produtos usados com praticidade, segurança e entrega integrada.</footer>
+<div class="modal" id="buyModal"><div class="modal-box"><button class="close" onclick="closeModal()">Fechar</button><h2>Tenho interesse</h2><p id="buyText"></p><p>Para continuar, a compra deve ser realizada pela plataforma e inclui coleta e entrega DesapeGO!.</p><div class="notice" id="buyNotice" style="display:block">Simulação de interesse. Pagamento e pedido ainda não estão conectados a um sistema real.</div><button style="margin-top:15px" onclick="closeModal()">Entendi</button></div></div>
+<script>
+let currentAd='';
+function generateAd(){
+const d=document.getElementById('productDescription').value.trim();
+if(!d){alert('Descreva o produto para gerar uma sugestão.');return}
+const words=d.split(/\s+/).slice(0,6).join(' ');
+const title=words.charAt(0).toUpperCase()+words.slice(1);
+currentAd='Título sugerido: '+title+'\n\nDescrição sugerida: Produto usado conforme descrição do vendedor. '+d+'\n\nCategoria sugerida: A definir após análise do produto.\nPreço sugerido: Consulte produtos semelhantes e revise o valor antes de publicar.';
+document.getElementById('adResult').textContent=currentAd;
+}
+function publishAd(){
+const video=document.getElementById('video').files[0];
+if(!currentAd){alert('Gere a simulação do anúncio primeiro, usando a descrição opcional ou o vídeo.');return}
+if(!video){alert('Para publicar o anúncio, é obrigatório enviar um vídeo do produto. A simulação por texto é permitida, mas não substitui o vídeo.');document.getElementById('video').scrollIntoView({behavior:'smooth',block:'center'});return}
+document.getElementById('adNotice').textContent='Vídeo selecionado e anúncio preparado para revisão. A publicação real depende da integração com o serviço de anúncios e IA.';
+document.getElementById('adNotice').style.display='block';
+}
+function videoSelected(){
+const f=document.getElementById('video').files[0];
+document.getElementById('videoName').textContent=f?'Vídeo selecionado: '+f.name+' · O vídeo foi anexado nesta simulação. A análise real por IA depende da integração do serviço.':'Nenhum vídeo selecionado. Envie o vídeo antes de publicar.';
+}
+function searchProducts(){
+const q=document.getElementById('query').value.toLowerCase().trim();
+document.getElementById('filter').value=q;
+filterProducts();
+document.getElementById('productList').scrollIntoView({behavior:'smooth',block:'start'});
+}
+function filterProducts(){
+const q=document.getElementById('filter').value.toLowerCase().trim();
+let count=0;
+document.querySelectorAll('.product').forEach(card=>{
+const show=card.dataset.search.includes(q)||card.innerText.toLowerCase().includes(q);
+card.style.display=show?'block':'none';
+if(show)count++;
+});
+document.getElementById('noResults').style.display=count?'none':'block';
+}
+function buy(name,price){
+document.getElementById('buyText').textContent=name+' · '+price;
+document.getElementById('buyModal').classList.add('open');
+}
+function closeModal(){document.getElementById('buyModal').classList.remove('open')}
+function account(){document.getElementById('accountNotice').style.display='block'}
+
+const priorityOptionsNew = {
+  normal:{label:'Entrega normal',fee:0,detail:'Sem taxa adicional.'},
+  weekend:{label:'Entrega em final de semana',fee:7.90,detail:'Adicional de R$ 7,90.'},
+  holiday:{label:'Entrega em feriado',fee:7.90,detail:'Adicional de R$ 7,90.'},
+  afterhours:{label:'Entrega fora do horário comercial',fee:7.90,detail:'Adicional de R$ 7,90.'},
+  sameday:{label:'Entrega no mesmo dia da compra',fee:9.90,detail:'Adicional de R$ 9,90.'}
+};
+let deliveryTrackingStepNew = 0;
+function moneyNew(value){
+  return Number(value).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+}
+function updatePriorityNew(){
+  const selected = priorityOptionsNew[document.getElementById('priorityTypeNew').value];
+  document.getElementById('prioritySummaryNew').textContent = selected.label+' selecionada. '+selected.detail+' A solicitação depende de disponibilidade operacional.';
+}
+function scheduleDeliveryNew(){
+  const date = document.getElementById('deliveryDateNew').value;
+  const pickup = document.getElementById('pickupAddressNew').value.trim();
+  const dropoff = document.getElementById('dropoffAddressNew').value.trim();
+  if(!date || !pickup || !dropoff){
+    alert('Preencha a data e os dois endereços para solicitar o agendamento.');
+    return;
+  }
+  const chosenDate = new Date(date+'T12:00:00');
+  const today = new Date();
+  today.setHours(0,0,0,0);
+  if(chosenDate < today){
+    alert('Escolha uma data igual ou posterior a hoje.');
+    return;
+  }
+  const type = document.getElementById('priorityTypeNew').value;
+  const option = priorityOptionsNew[type];
+  document.getElementById('deliveryStatusNew').textContent = 'Solicitação registrada — '+chosenDate.toLocaleDateString('pt-BR')+' · '+document.getElementById('deliveryPeriodNew').selectedOptions[0].text;
+  document.getElementById('deliveryRequestNoticeNew').textContent = 'Agendamento demonstrativo solicitado. Modalidade: '+option.label+'. Taxa adicional: '+moneyNew(option.fee)+'. A confirmação real depende da disponibilidade operacional.';
+  document.getElementById('deliveryRequestNoticeNew').style.display = 'block';
+  deliveryTrackingStepNew = 0;
+  renderDeliveryTrackingNew();
+}
+function renderDeliveryTrackingNew(){
+  const labels = ['Pedido realizado','Pagamento confirmado','Coleta agendada','Produto coletado','Em transporte','Entrega concluída'];
+  document.querySelectorAll('#deliveryTrackingNew .tracking-step').forEach((item,index)=>{
+    item.classList.toggle('done',index<=deliveryTrackingStepNew);
+  });
+  document.getElementById('deliveryStatusNew').textContent = labels[deliveryTrackingStepNew];
+}
+function advanceDeliveryNew(){
+  deliveryTrackingStepNew = Math.min(deliveryTrackingStepNew+1,5);
+  renderDeliveryTrackingNew();
+}
+function resetTrackingNew(){
+  deliveryTrackingStepNew = 0;
+  renderDeliveryTrackingNew();
+}
+function resetDeliveryNew(){
+  ['deliveryDateNew','pickupAddressNew','dropoffAddressNew'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('deliveryPeriodNew').selectedIndex=0;
+  document.getElementById('priorityTypeNew').value='normal';
+  updatePriorityNew();
+  document.getElementById('deliveryRequestNoticeNew').style.display='none';
+  document.getElementById('deliveryStatusNew').textContent='Aguardando solicitação de agendamento';
+  resetTrackingNew();
+}
+function submitExperienceNew(){
+  const comment = document.getElementById('experienceCommentNew').value.trim();
+  if(!comment){alert('Escreva um comentário antes de enviar sua avaliação.');return;}
+  const stars = Number(document.getElementById('experienceRatingNew').value);
+  const role = document.getElementById('experienceRoleNew').value;
+  const result = document.getElementById('experienceResultNew');
+  result.textContent = 'Avaliação enviada nesta demonstração\\n'+'★'.repeat(stars)+'☆'.repeat(5-stars)+'\\nPerfil: '+role+'\\n'+comment;
+  result.style.display = 'block';
+}
+function submitSupportNew(){
+  const message = document.getElementById('supportTextNew').value.trim();
+  if(!message){alert('Descreva sua solicitação antes de enviar.');return;}
+  const notice = document.getElementById('supportNoticeNew');
+  notice.textContent = 'Solicitação demonstrativa registrada. Assunto: '+document.getElementById('supportSubjectNew').value+'. Em uma versão conectada, o atendimento receberá este chamado.';
+  notice.style.display = 'block';
+}
+function submitDisputeNew(){
+  const details = document.getElementById('disputeTextNew').value.trim();
+  if(!details){alert('Descreva o problema para registrar a ocorrência.');return;}
+  const notice = document.getElementById('disputeNoticeNew');
+  notice.textContent = 'Ocorrência registrada nesta demonstração: '+document.getElementById('disputeReasonNew').value+'. Em uma operação real, a disputa seria encaminhada para análise e poderia suspender a liberação do pagamento.';
+  notice.style.display = 'block';
+}
+
+</script>
+</body>
+</html>
